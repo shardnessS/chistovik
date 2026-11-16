@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#2B3F6B"/>
+  <!-- Строки текста; одно слово во второй строке вычеркнуто — его и убирает Чистовик -->
+  <g fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round">
+    <path d="M16 21 H48"/>
+    <path d="M16 32 H28"/>
+    <path d="M16 43 H40"/>
+  </g>
+  <path d="M35 27 L45 37 M45 27 L35 37" fill="none" stroke="#F28C6B" stroke-width="4" stroke-linecap="round"/>
+</svg>

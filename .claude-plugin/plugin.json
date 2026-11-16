@@ -1,0 +1,27 @@
+{
+  "name": "chistovik",
+  "displayName": "Чистовик",
+  "version": "0.1.0",
+  "description": "Находит в русском тексте штампы нейросети, правит только их и проверяет, что цифры, даты и имена остались на месте.",
+  "author": {
+    "name": "shardness",
+    "url": "https://github.com/shardnessS"
+  },
+  "homepage": "https://github.com/shardnessS/chistovik",
+  "repository": "https://github.com/shardnessS/chistovik",
+  "license": "MIT",
+  "icon": "./assets/icon.svg",
+  "keywords": [
+    "russian",
+    "writing",
+    "ai-text",
+    "humanize",
+    "editing",
+    "cliches",
+    "hr",
+    "resume",
+    "штампы",
+    "канцелярит",
+    "очеловечить текст"
+  ]
+}

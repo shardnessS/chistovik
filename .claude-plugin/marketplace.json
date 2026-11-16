@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "chistovik",
+  "description": "Находит в русском тексте штампы нейросети, правит только их и проверяет, что цифры, даты и имена остались на месте.",
+  "owner": {
+    "name": "shardness",
+    "url": "https://github.com/shardnessS"
+  },
+  "plugins": [
+    {
+      "name": "chistovik",
+      "source": "./",
+      "description": "Находит в русском тексте штампы нейросети, правит только их и проверяет, что цифры, даты и имена остались на месте.",
+      "category": "productivity"
+    }
+  ]
+}
