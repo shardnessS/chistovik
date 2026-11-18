@@ -254,6 +254,16 @@ class Facts(unittest.TestCase):
         bad = draft + " Руководил командой из 12 человек."
         self.assertTrue(self.verdict(brief, bad, "chat", new=True)["errors"])
 
+    def test_new_mode_does_not_pair_different_units(self):
+        brief = "На дорогу уходит 6 часов. Работаю с ноября 2020."
+        r = self.verdict(brief, "Шесть лет пишу бэкенд.", "chat", new=True)
+        self.assertFalse(any("Число изменилось" in e for e in r["errors"]))
+        self.assertTrue(any("Появилось число" in e and "Шесть лет" in e for e in r["errors"]))
+
+    def test_new_mode_still_pairs_same_unit(self):
+        r = self.verdict("Опыт около 6 лет.", "Опыт 6 лет.", "chat", new=True)
+        self.assertTrue(any("Число изменилось" in e for e in r["errors"]))
+
 
 class Voice(unittest.TestCase):
     def setUp(self):

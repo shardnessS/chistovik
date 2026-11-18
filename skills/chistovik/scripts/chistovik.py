@@ -27,7 +27,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 FLAGS = re.I | re.M
 
 # --------------------------------------------------------------------------- жанры
@@ -297,6 +297,14 @@ PHRASES = [
       r"\b(?:стать\s+частью|присоединиться\s+к)\s+(?:вашей\s+)?(?:дружной\s+|сильной\s+|профессиональной\s+)?"
       r"(?:команд|коллектив)\w*",
       "Хочу стать частью вашей команды.", "Что будешь делать в этой команде?"),
+    P("ogromnoe_zhelanie", "hr", "hard",
+      r"\b(?:огромн\w*|больш(?:ое|им|ого)|сильн\w*|искренн\w*|горяч\w*|неподдельн\w*|непреодолим\w*)\s+желани\w*"
+      r"|\bгор(?:ю|им)\s+желанием",
+      "Есть огромное желание работать в вашей компании.",
+      "Желание не проверить. Напиши, что хочешь делать: «Хочу писать интеграции на Kafka»."),
+    P("poprobovat_sebya", "hr", "hard", r"\bпопробовать\s+(?:себя|свои\s+силы)\b|\bпроявить\s+себя\b",
+      "Хочу попробовать себя на вашем проекте.",
+      "Так пишут без опыта. Назови задачу, которую готов взять, и где делал похожее."),
 
     # --- канцелярит
     P("v_ramkah", "kantselyarit", "soft", r"\bв\s+рамках\b",
@@ -1247,10 +1255,20 @@ def check(original: str, revised: str, genre: str = DEFAULT_GENRE, new_text: boo
         m = re.search(r"\d[\d   ]*(?:[.,]\d+)?", shown)
         return re.sub(r"\s", "", m.group()).rstrip(".,") if m else shown.lower()
 
+    def unit(key: str) -> str:
+        return key.split(" ", 1)[1] if " " in key else ""
+
+    def same_fact(a: str, k: str) -> bool:
+        # В правке «150 км» → «150 миль» — то же число с другой единицей.
+        # В новом тексте исходные числа не обязаны встречаться, поэтому «6 часов» и «шесть лет» — разные факты.
+        if new_text and unit(a) and unit(k) and unit(a) != unit(k):
+            return False
+        return value(a) == value(k) or base(r_nums[a]) == base(o_nums[k])
+
     lost = [k for k in o_nums if k not in r_nums]
     added = [k for k in r_nums if k not in o_nums]
     for k in list(lost):
-        twin = next((a for a in added if value(a) == value(k) or base(r_nums[a]) == base(o_nums[k])), None)
+        twin = next((a for a in added if same_fact(a, k)), None)
         if twin:
             errors.append(f"Число изменилось: было «{o_nums[k]}», стало «{r_nums[twin]}».")
             lost.remove(k)
